@@ -1,0 +1,12 @@
+flask==3.0.0
+anthropic==0.40.0
+python-dotenv==1.0.0
+requests==2.31.0
+gunicorn==21.2.0
+
+# Dependências do Agente de IA (opcionais - só necessárias se usar automação GUI)
+pillow>=10.3.0          # Manipulação de imagens (compatível com Python 3.13)
+pynput>=1.7.6           # Captura de eventos de mouse e teclado
+pyautogui>=0.9.54       # Automação de GUI
+mss>=9.0.1              # Screenshot rápido
+opencv-python>=4.8.1.78 # Processamento de imagens
