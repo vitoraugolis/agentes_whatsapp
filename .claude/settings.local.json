@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(source:*)",
+      "Bash(pip install:*)",
+      "Bash(timeout 5 python:*)",
+      "Bash(python -c:*)",
+      "Bash(python:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(/usr/local/bin/ngrok http:*)",
+      "Bash(kill:*)",
+      "Bash(pgrep:*)",
+      "Bash(git clone:*)",
+      "Bash(chmod:*)"
+    ]
+  }
+}
