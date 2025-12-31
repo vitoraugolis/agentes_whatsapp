@@ -32,6 +32,7 @@ def processar_mensagem_com_claude(mensagem_usuario):
 
         # Tenta com modelo mais recente primeiro, fallback para versões anteriores
         modelos = [
+            "claude-sonnet-4-5",
             "claude-3-5-sonnet-20241022",
             "claude-3-5-sonnet-20240620",
             "claude-3-sonnet-20240229"
