@@ -24,6 +24,12 @@ client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 def processar_mensagem_com_claude(mensagem_usuario):
     """Processa mensagem do usuário com Claude e retorna resposta"""
     try:
+        if not ANTHROPIC_API_KEY:
+            print("❌ ERRO: ANTHROPIC_API_KEY não configurada!")
+            return "Erro de configuração: API key não encontrada."
+
+        print(f"🔑 API Key presente: {ANTHROPIC_API_KEY[:20]}...")
+
         mensagem = client.messages.create(
             model="claude-3-5-sonnet-20241022",
             max_tokens=1024,
@@ -33,8 +39,10 @@ def processar_mensagem_com_claude(mensagem_usuario):
         )
         return mensagem.content[0].text
     except Exception as e:
-        print(f"Erro ao processar com Claude: {e}")
-        return "Desculpe, ocorreu um erro ao processar sua mensagem."
+        print(f"❌ Erro ao processar com Claude: {type(e).__name__}: {e}")
+        import traceback
+        traceback.print_exc()
+        return f"Desculpe, ocorreu um erro: {type(e).__name__}"
 
 
 @app.route('/webhook', methods=['GET'])
