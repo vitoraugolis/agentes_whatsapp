@@ -82,9 +82,23 @@ def receber_mensagem():
         print("="*70)
 
         # Extrai informações da mensagem
-        # Você pode ajustar esses campos dependendo de como o Make envia os dados
+        # Suporta múltiplos formatos do WhatsApp/Make
         numero_remetente = data.get('from') or data.get('numero') or data.get('phone')
-        mensagem_texto = data.get('message') or data.get('mensagem') or data.get('text')
+
+        # Tenta extrair a mensagem de diferentes formatos
+        mensagem_texto = None
+        if 'text' in data and isinstance(data['text'], dict) and 'body' in data['text']:
+            # Formato WhatsApp API: {"text": {"body": "mensagem"}}
+            mensagem_texto = data['text']['body']
+        elif 'message' in data:
+            # Formato simples: {"message": "mensagem"}
+            mensagem_texto = data['message']
+        elif 'mensagem' in data:
+            # Formato português: {"mensagem": "mensagem"}
+            mensagem_texto = data['mensagem']
+        elif 'text' in data and isinstance(data['text'], str):
+            # Formato direto: {"text": "mensagem"}
+            mensagem_texto = data['text']
 
         if not numero_remetente or not mensagem_texto:
             print("❌ Dados incompletos na requisição")
