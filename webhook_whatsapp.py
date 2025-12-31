@@ -30,13 +30,32 @@ def processar_mensagem_com_claude(mensagem_usuario):
 
         print(f"🔑 API Key presente: {ANTHROPIC_API_KEY[:20]}...")
 
-        mensagem = client.messages.create(
-            model="claude-3-5-sonnet-20241022",
-            max_tokens=1024,
-            messages=[
-                {"role": "user", "content": mensagem_usuario}
-            ]
-        )
+        # Tenta com modelo mais recente primeiro, fallback para versões anteriores
+        modelos = [
+            "claude-3-5-sonnet-20241022",
+            "claude-3-5-sonnet-20240620",
+            "claude-3-sonnet-20240229"
+        ]
+
+        mensagem = None
+        for modelo in modelos:
+            try:
+                print(f"🔄 Tentando modelo: {modelo}")
+                mensagem = client.messages.create(
+                    model=modelo,
+                    max_tokens=1024,
+                    messages=[
+                        {"role": "user", "content": mensagem_usuario}
+                    ]
+                )
+                print(f"✅ Sucesso com modelo: {modelo}")
+                break
+            except Exception as model_error:
+                print(f"❌ Falha com {modelo}: {model_error}")
+                continue
+
+        if not mensagem:
+            return "Erro: Nenhum modelo Claude disponível para esta API key."
         return mensagem.content[0].text
     except Exception as e:
         print(f"❌ Erro ao processar com Claude: {type(e).__name__}: {e}")
